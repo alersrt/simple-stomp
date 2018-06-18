@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Simple STOMP</title>
+
+  <script src="/webjars/react/16.3.1/umd/react.production.min.js" defer></script>
+  <script src="/webjars/react-dom/16.3.1/umd/react-dom.production.min.js" defer></script>
+  <script src="/webjars/sockjs-client/1.1.2/sockjs.min.js" defer></script>
+  <script src="/webjars/stomp-websocket/2.3.3/stomp.min.js" defer></script>
+  <script src="/webjars/babel-standalone/6.26.0/babel.min.js" defer></script>
+  <script type="text/babel" src="app.js" defer></script>
+</head>
+<body>
+  <button id="connect" onclick="connect()">Connect</button>
+  <button id="disconnect" onclick="disconnect()">Disconnect</button>
+  <p/>
+  <input id="input"/>
+  <button onclick="send()">Send</button>
+  <div id="root"></div>
+</body>
+</html>
