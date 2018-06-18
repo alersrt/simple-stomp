@@ -25,13 +25,23 @@ public class StompController {
   public List<ReversedMessage> reverseString(Message message) {
     log.info("receive: " + message.getString());
     StringBuffer sb = new StringBuffer(message.getString());
+
     try{
       reversedMessageRepository.save(ReversedMessage.builder().string(sb.reverse().toString()).build());
     } catch (Exception e) {
-      log.error(e.toString());
+      log.error("save reversed message: " + e.toString());
+      throw e;
     }
-    List<ReversedMessage> answer = reversedMessageRepository.findAll();
-    log.info("send: " + answer.toString());
+
+    List<ReversedMessage> answer = null;
+    try{
+      answer = reversedMessageRepository.findAll();
+      log.info("send: " + answer.toString());
+    } catch (Exception e) {
+      log.error("get reversed messages: " + e.toString());
+      throw e;
+    }
+
     return answer;
   }
 }
