@@ -25,13 +25,13 @@ docs: gradle.docs
 
 
 ##################
-# Maven commands #
+# Gradle commands #
 ##################
 
-# Maven command.
+# Gradle command.
 #
 # Usage:
-#	make mvn [task=]
+#	make gradle [task=]
 task ?=
 
 gradle:
