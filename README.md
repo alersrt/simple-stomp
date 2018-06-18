@@ -14,7 +14,8 @@ For convenient work with this project [Makefile](Makefile) was created. Availabl
 - `make clear` — clear temporary files;
 - `make test` — run unit tests;
 - `make build` — build jar-file;
-- `make docs` — generate JavaDoc.
+- `make docs` — generate JavaDoc;
+- `make run` — run application from sources via `bootRun` command.
 
 All commands are using of docker `gradle:alpine` image.
 
