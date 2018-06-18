@@ -12,7 +12,7 @@ function connect() {
     setConnected(true);
     console.log('Connected: ' + frame);
     stompClient.subscribe('/message/reversed', function (reversed) {
-      showStrings(reversed.body.content);
+      showStrings(JSON.parse(reversed.body));
     });
   });
 }
@@ -32,11 +32,9 @@ function send() {
 }
 
 function showStrings(array) {
-  let messages = array.content;
-
   ReactDOM.render(
       <div>
-        {messages.map(m => <p>{m.string}</p>)}
+        {array.map(m => <p id={m.id}>{m.string}</p>)}
       </div>,
       document.getElementById('root')
   );

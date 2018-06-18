@@ -6,36 +6,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.student.simplestomp.entity.Message;
 import org.student.simplestomp.entity.ReversedMessage;
 import org.student.simplestomp.repository.ReversedMessageRepository;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-@Controller
+@Slf4j
 @RequiredArgsConstructor(onConstructor = @__({@Autowired}))
+@Controller
 public class StompController {
 
   private final ReversedMessageRepository reversedMessageRepository;
 
   @MessageMapping("/string")
   @SendTo("/message/reversed")
-  public JsonObject reverseString(JsonObject message) {
-    StringBuffer sb = new StringBuffer(message.get("string").getAsString());
-
-    reversedMessageRepository.save(new ReversedMessage(sb.reverse().toString()));
-    List<ReversedMessage> messages = reversedMessageRepository.findAll();
-
-    JsonObject answer = new JsonObject();
-    JsonArray jsonArray = new JsonArray();
-    messages.forEach(m -> {
-      JsonObject jsonObject = new JsonObject();
-      jsonObject.addProperty("string", m.getReversedString());
-      jsonArray.add(jsonObject);
-    });
-    answer.add("content", jsonArray);
+  public List<ReversedMessage> reverseString(Message message) {
+    log.info("receive: " + message.getString());
+    StringBuffer sb = new StringBuffer(message.getString());
+    try{
+      reversedMessageRepository.save(ReversedMessage.builder().string(sb.reverse().toString()).build());
+    } catch (Exception e) {
+      log.error(e.toString());
+    }
+    List<ReversedMessage> answer = reversedMessageRepository.findAll();
+    log.info("send: " + answer.toString());
     return answer;
   }
 }
