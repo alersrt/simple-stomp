@@ -49,7 +49,7 @@ gradle.clean:
 
 # build command
 gradle.build:
-	@make gradle task='-x check -x test'
+	@make gradle task='build -x check -x test'
 
 # docs command
 gradle.docs:

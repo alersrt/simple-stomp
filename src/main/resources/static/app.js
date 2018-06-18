@@ -11,8 +11,8 @@ function connect() {
   stompClient.connect({}, function (frame) {
     setConnected(true);
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/message/reversed', function (reversed) {
-      showStrings(JSON.parse(reversed.body));
+    stompClient.subscribe('/answer', function (answer) {
+      showStrings(JSON.parse(answer.body));
     });
   });
 }
@@ -26,7 +26,7 @@ function disconnect() {
 }
 
 function send() {
-  stompClient.send("/app/string", {}, JSON.stringify({"string": document.getElementById('input').value}));
+  stompClient.send("/request", {}, JSON.stringify({"string": document.getElementById('input').value}));
   document.getElementById('input').value = '';
   showStrings();
 }

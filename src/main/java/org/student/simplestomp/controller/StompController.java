@@ -20,8 +20,8 @@ public class StompController {
 
   private final AnswerRepository answerRepository;
 
-  @MessageMapping("/string")
-  @SendTo("/request/reversed")
+  @MessageMapping("/request")
+  @SendTo("/answer")
   public List<Answer> reverseString(Request request) {
     log.info("receive: " + request.getString());
     StringBuffer sb = new StringBuffer(request.getString());

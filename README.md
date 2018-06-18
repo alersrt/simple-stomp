@@ -5,8 +5,8 @@ This application gets string via websocket, reverses it, saves and returns all r
 ## Endpoints
 
 - Websocket endpoint is `/websocket`
-- Requests have to sended to `/app/string`
-- Answers should be readed from `/message/reversed`
+- Requests have to sended to `/request`
+- Answers should be readed from `/answer`
 
 ## Toolchain
 
@@ -17,3 +17,12 @@ For convenient work with this project [Makefile](Makefile) was created. Availabl
 - `make docs` — generate JavaDoc.
 
 All commands are using of docker `gradle:alpine` image.
+
+## Requirements
+
+- Here is used Lombok Library. For make your IDEs supports it, you should to go at the [site][1], select `Install` menu, choose your IDE in `IDE` section and follows instructions.
+- Used version of Gradle must be 4.6 or higher.
+
+
+
+[1]: https://projectlombok.org/
