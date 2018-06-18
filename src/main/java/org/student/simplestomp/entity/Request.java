@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Builder
-public class Message {
+public class Request {
 
   @NonNull private String string;
 }

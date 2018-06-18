@@ -16,18 +16,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
-import org.student.simplestomp.entity.Message;
-import org.student.simplestomp.entity.ReversedMessage;
-import org.student.simplestomp.repository.ReversedMessageRepository;
+import org.student.simplestomp.entity.Answer;
+import org.student.simplestomp.entity.Request;
+import org.student.simplestomp.repository.AnswerRepository;
 
 @Tag("unit")
 @DisplayName("Test for STOMP controller")
 class StompControllerTest {
 
-  private ReversedMessageRepository reversedMessageRepository =
-      mock(ReversedMessageRepository.class);
+  private AnswerRepository answerRepository = mock(AnswerRepository.class);
 
-  private StompController stompController = new StompController(reversedMessageRepository);
+  private StompController stompController = new StompController(answerRepository);
 
   @BeforeEach
   void setUp() {
@@ -41,21 +40,20 @@ class StompControllerTest {
   @Test
   void reverseString_ok() {
     /*------ Arranges ------*/
-    List<ReversedMessage> expectedAnswer = new ArrayList<>();
-    expectedAnswer.add(ReversedMessage.builder().string("tsrif").build());
-    expectedAnswer.add(ReversedMessage.builder().string("dnoces").build());
+    List<Answer> expectedAnswer = new ArrayList<>();
+    expectedAnswer.add(Answer.builder().string("tsrif").build());
+    expectedAnswer.add(Answer.builder().string("dnoces").build());
 
-    when(reversedMessageRepository.save(any(ReversedMessage.class)))
+    when(answerRepository.save(any(Answer.class)))
         .then(
             invocation -> {
               expectedAnswer.add(invocation.getArgument(0));
               return invocation.getArgument(0);
             });
-    when(reversedMessageRepository.findAll()).thenReturn(expectedAnswer);
+    when(answerRepository.findAll()).thenReturn(expectedAnswer);
 
     /*------ Actions ------*/
-    List<ReversedMessage> result =
-        stompController.reverseString(Message.builder().string("third").build());
+    List<Answer> result = stompController.reverseString(Request.builder().string("third").build());
 
     /*------ Asserts ------*/
     assertAll(
@@ -69,15 +67,14 @@ class StompControllerTest {
   @Test
   void reverseString_save_exception() {
     /*------ Arranges ------*/
-    when(reversedMessageRepository.save(any(ReversedMessage.class)))
-        .thenThrow(new RuntimeException("test"));
+    when(answerRepository.save(any(Answer.class))).thenThrow(new RuntimeException("test"));
 
     /*------ Actions ------*/
     RuntimeException exception =
         assertThrows(
             RuntimeException.class,
             () -> {
-              stompController.reverseString(Message.builder().string("first").build());
+              stompController.reverseString(Request.builder().string("first").build());
             });
 
     /*------ Asserts ------*/
@@ -88,16 +85,15 @@ class StompControllerTest {
   @Test
   void reverseString_findAll_exception() {
     /*------ Arranges ------*/
-    when(reversedMessageRepository.save(any(ReversedMessage.class)))
-        .then(invocation -> invocation.getArgument(0));
-    when(reversedMessageRepository.findAll()).thenThrow(new RuntimeException("test"));
+    when(answerRepository.save(any(Answer.class))).then(invocation -> invocation.getArgument(0));
+    when(answerRepository.findAll()).thenThrow(new RuntimeException("test"));
 
     /*------ Actions ------*/
     RuntimeException exception =
         assertThrows(
             RuntimeException.class,
             () -> {
-              stompController.reverseString(Message.builder().string("first").build());
+              stompController.reverseString(Request.builder().string("first").build());
             });
 
     /*------ Asserts ------*/

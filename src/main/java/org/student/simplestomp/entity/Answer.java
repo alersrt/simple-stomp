@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Builder
-public class ReversedMessage {
+public class Answer {
 
   @Id @GeneratedValue @NonNull private long id;
   @NonNull private String string;

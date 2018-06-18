@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.student.simplestomp.entity.Message;
-import org.student.simplestomp.entity.ReversedMessage;
-import org.student.simplestomp.repository.ReversedMessageRepository;
+import org.student.simplestomp.entity.Answer;
+import org.student.simplestomp.entity.Request;
+import org.student.simplestomp.repository.AnswerRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,24 +18,24 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class StompController {
 
-  private final ReversedMessageRepository reversedMessageRepository;
+  private final AnswerRepository answerRepository;
 
   @MessageMapping("/string")
-  @SendTo("/message/reversed")
-  public List<ReversedMessage> reverseString(Message message) {
-    log.info("receive: " + message.getString());
-    StringBuffer sb = new StringBuffer(message.getString());
+  @SendTo("/request/reversed")
+  public List<Answer> reverseString(Request request) {
+    log.info("receive: " + request.getString());
+    StringBuffer sb = new StringBuffer(request.getString());
 
     try{
-      reversedMessageRepository.save(ReversedMessage.builder().string(sb.reverse().toString()).build());
+      answerRepository.save(Answer.builder().string(sb.reverse().toString()).build());
     } catch (Exception e) {
-      log.error("save reversed message: " + e.toString());
+      log.error("save reversed request: " + e.toString());
       throw e;
     }
 
-    List<ReversedMessage> answer = null;
+    List<Answer> answer = null;
     try{
-      answer = reversedMessageRepository.findAll();
+      answer = answerRepository.findAll();
       log.info("send: " + answer.toString());
     } catch (Exception e) {
       log.error("get reversed messages: " + e.toString());
