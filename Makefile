@@ -13,6 +13,8 @@ eq = $(if $(or $(1),$(2)),$(and $(findstring $(1),$(2)),\
 # Aliases #
 ###########
 
+run: gradle.bootRun
+
 clean: gradle.clean
 
 test: gradle.test
@@ -59,6 +61,10 @@ gradle.test:
 		jacocoTestReport \
 		jacocoTestCoverageVerification'
 
+# bootRun command
+gradle.bootRun:
+	@make gradle task='bootRun'
 
 
-.PHONY: gradle gradle.clean gradle.test gradle.build gradle.docs
+.PHONY: clean test build docs run \
+		gradle gradle.clean gradle.test gradle.build gradle.docs gradle.bootRun
